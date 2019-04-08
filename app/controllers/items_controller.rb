@@ -15,6 +15,7 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
+    @categories = Category.all.map{|c| [c.name, c.id]}
   end
 
   # GET /items/1/edit
@@ -25,6 +26,7 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(item_params)
+    @item.category_id = params[:category_id] 
 
     respond_to do |format|
       if @item.save
