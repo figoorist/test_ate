@@ -56,11 +56,11 @@ class ItemsController < ApplicationController
     end
   end
 
-  # DELETE /items/1
+  # DELETE /items/1cont
   # DELETE /items/1.json
   def destroy
     if @item.image.present?
-      File.delete(Rails.root.join('app', 'assets', 'images', 'illustrations', @item.image))
+      File.delete(Rails.root.join('app', 'assets', 'images', 'illustrations', @item.image)) if File.exist?(Rails.root.join('app', 'assets', 'images', 'illustrations', @item.image))
     end
     @item.destroy
     respond_to do |format|
@@ -81,6 +81,8 @@ class ItemsController < ApplicationController
     end
 
     def upload(uploaded_io)     
+      Dir.mkdir(Rails.root.join('app', 'assets', 'images', 'illustrations')) if !Dir.exists?(Rails.root.join('app', 'assets', 'images', 'illustrations'))
+      
       File.open(Rails.root.join('app', 'assets', 'images', 'illustrations', uploaded_io.original_filename), 'wb') do |file|
         file.write(uploaded_io.read)
       end
