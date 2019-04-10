@@ -25,8 +25,11 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
+    
     @item = Item.new(item_params)
     @item.category_id = params[:category_id] 
+    uploaded_io = params[:item][:image]
+    upload(uploaded_io) if uploaded_io
 
     respond_to do |format|
       if @item.save
@@ -56,6 +59,9 @@ class ItemsController < ApplicationController
   # DELETE /items/1
   # DELETE /items/1.json
   def destroy
+    if @item.image.present?
+      File.delete(Rails.root.join('app', 'assets', 'images', 'illustrations', @item.image))
+    end
     @item.destroy
     respond_to do |format|
       format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
@@ -71,6 +77,13 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:name, :category_id)
+      params.require(:item).permit(:name, :category_id, :price, :image)
+    end
+
+    def upload(uploaded_io)     
+      File.open(Rails.root.join('app', 'assets', 'images', 'illustrations', uploaded_io.original_filename), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+      @item.image = uploaded_io.original_filename
     end
 end

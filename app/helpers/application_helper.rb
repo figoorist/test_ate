@@ -8,4 +8,12 @@ module ApplicationHelper
       "#{base_title} | #{page_title}"
     end
   end
+
+  def image_filepath(item)
+  	if item.image.present?
+  		"illustrations/" + item.image
+  	else
+  		"flourish.png"
+  	end
+  end
 end

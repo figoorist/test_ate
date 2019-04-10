@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2019_04_08_143549) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
-    t.float "price"
+    t.decimal "price", precision: 8, scale: 2
   end
 
   create_table "posts", force: :cascade do |t|
