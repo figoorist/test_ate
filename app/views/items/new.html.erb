@@ -4,7 +4,7 @@
   <%= form_with(model: @item, local: true) do |form| %>
     <% if @item.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+        <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
 
         <ul>
         <% @item.errors.full_messages.each do |message| %>
@@ -27,7 +27,7 @@
     <div class="form-group row">
       <%= form.label :category_id, :class => ['col-sm-2', 'col-form-label'] %>
       <div class="col-sm-6">
-        <%= select_tag(:category_id, options_for_select(@categories), :prompt => '', :class => "form-control") %>
+        <%= select_tag(:category_id, options_for_select(@categories), :prompt => 'Select category', :class => "form-control") %>
       </div>
     </div>
 

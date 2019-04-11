@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
     
     @item = Item.new(item_params)
     @item.category_id = params[:category_id] 
-    uploaded_io = params[:item][:image]
+    uploaded_io = item_params[:image]
     upload(uploaded_io) if uploaded_io
 
     respond_to do |format|
