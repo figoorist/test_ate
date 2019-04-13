@@ -16,4 +16,12 @@ module ApplicationHelper
   		"flourish.png"
   	end
   end
+
+  def item_category(item)
+    if item.category.present?
+      item.category.name
+    else
+      "Category has deleted"
+    end
+  end
 end

@@ -15,7 +15,6 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
-    @categories = Category.all.map{|c| [c.name, c.id]}
   end
 
   # GET /items/1/edit
@@ -27,14 +26,16 @@ class ItemsController < ApplicationController
   def create
     
     @item = Item.new(item_params)
-    @item.category_id = params[:category_id] 
     uploaded_io = item_params[:image]
-    upload(uploaded_io) if uploaded_io
-
+    if uploaded_io
+      upload(uploaded_io)
+      @item.image = uploaded_io.original_filename
+    end
+    
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
-        format.json { render :show, status: :created, location: @item }
+        format.html { redirect_to items_url, notice: 'Item was successfully created.' }
+        format.json { head :no_content }
       else
         format.html { render :new }
         format.json { render json: @item.errors, status: :unprocessable_entity }
@@ -77,7 +78,7 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:name, :category_id, :price, :image)
+      params.require(:item).permit(:name, :category_id, :desc, :image)
     end
 
     def upload(uploaded_io)     
@@ -86,6 +87,6 @@ class ItemsController < ApplicationController
       File.open(Rails.root.join('app', 'assets', 'images', 'illustrations', uploaded_io.original_filename), 'wb') do |file|
         file.write(uploaded_io.read)
       end
-      @item.image = uploaded_io.original_filename
+      
     end
 end

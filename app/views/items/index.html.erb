@@ -28,8 +28,12 @@
                             <h6><%= item.created_at.strftime("Created at %Y-%m-%d")%></h6>
                             <hr/>
                             <article>
-                                <p>Category: <%= item.category.name %></p>
-                                <p>Price: <%= number_to_currency(item.price, :unit => "$") %></p>
+                                <% if !item.category.present? %>
+                                    <p>Category: <strong class="text-danger"><%= item_category(item) %></strong></p>
+                                <% else %>
+                                    <p>Category: <%= item_category(item) %></p>
+                                <% end %>
+                                <p>Description: <%= item.desc %></p>
                             </article>
                         </div>
                     <% end %>
