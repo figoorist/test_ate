@@ -3,9 +3,13 @@ class Category < ApplicationRecord
 
 	has_ancestry
 	has_many :items
-	validates :name, presence: true
+	
+	# validation
+  	validates_with CategoryValidator
 
 	def create_slug
-	    self.slug = self.name.parameterize
+	    if !self.slug.present?
+	    	self.slug = self.name.parameterize
+	    end
 	end
 end

@@ -2,10 +2,13 @@ class Item < ApplicationRecord
 	before_create :create_slug
 
 	belongs_to :category
-	validates :name, presence: true
-	validates :category_id, presence: true
+
+	# validation
+  	validates_with ItemValidator
 
 	def create_slug
-	    self.slug = self.name.parameterize
+		if !self.slug.present?
+	    	self.slug = self.name.parameterize
+	    end
 	end
 end
