@@ -1,5 +1,5 @@
 #Для работы используется гем Watir
-#Веб-драйвер geckodriver
+#Веб-драйвер chromedriver
 #Запускаем командой ruby loto.rb
 require 'byebug'
 require 'watir'
